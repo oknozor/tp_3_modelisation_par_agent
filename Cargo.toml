@@ -1,0 +1,6 @@
+[workspace]
+
+members = [
+    "racman_lib",
+    "racman_app"
+]
