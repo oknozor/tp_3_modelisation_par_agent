@@ -31,8 +31,13 @@ impl Sma {
 
     pub fn gen_wator(&mut self) {}
 
+    pub fn update_player_direction(&mut self, direction: Coord) {
+        self.environment.update_player_direction(direction);
+    }
+
     pub fn gen_pacman(&mut self) {
-        self.environment.agents.push(Rc::new(RefCell::new(Player::new())));
+        // Player agent is always expected to live at index 0
+        self.environment.add_agent(Rc::new(RefCell::new(Player::new())));
     }
 
     pub fn gen_particules(&mut self, density: i32) {

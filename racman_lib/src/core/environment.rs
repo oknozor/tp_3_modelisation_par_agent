@@ -1,4 +1,3 @@
-use super::constants::*;
 use crate::core::constants::{set_max_height, set_max_width};
 use crate::core::coordinate::Coord;
 use crate::AgentImpl;
@@ -18,11 +17,8 @@ impl Environment {
     }
 
     pub fn tick(&mut self) {
-        println!("===============");
         for idx in 0..self.agents.len() {
-            println!("{:?}", self.agents[idx].borrow().coordinates());
             let neighbors = &self.get_neighbors(idx);
-            println!(" as {} neigh", neighbors.len());
 
             self.agents[idx].borrow_mut().decide(neighbors);
         }
@@ -61,5 +57,12 @@ impl Environment {
         };
 
         [left, right].concat().to_vec()
+    }
+}
+
+// Pacman
+impl Environment {
+    pub fn update_player_direction(&mut self, direction: Coord) {
+        self.agents[0].borrow_mut().set_direction(direction);
     }
 }

@@ -16,6 +16,10 @@ impl RgbColor {
         RgbColor(1.0, 0.0, 0.0)
     }
 
+    pub fn blue() -> RgbColor {
+        RgbColor(0.0, 0.0, 1.0)
+    }
+
     pub fn black() -> RgbColor {
         RgbColor(0.0, 0.0, 0.0)
     }

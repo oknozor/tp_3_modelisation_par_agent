@@ -8,9 +8,9 @@ pub (crate) const WEST: Coord = Coord(-1, 0);
 pub (crate) const NORTH: Coord = Coord(0,-1);
 pub (crate) const SOUTH: Coord = Coord(0, 1);
 pub (crate) const SOUTH_EAST: Coord = Coord(1, 1);
-pub (crate) const SOUTH_WEST: Coord = Coord(1, -1);
-pub (crate) const NORTH_EAST: Coord = Coord(1, 1);
-pub (crate) const NORTH_WEST: Coord = Coord(-1, 1);
+pub (crate) const SOUTH_WEST: Coord = Coord(-1, 1);
+pub (crate) const NORTH_EAST: Coord = Coord(1, -1);
+pub (crate) const NORTH_WEST: Coord = Coord(-1, -1);
 
 pub(crate) fn max_width() -> i32 {
     unsafe {

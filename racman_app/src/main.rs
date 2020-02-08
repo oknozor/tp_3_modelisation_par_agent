@@ -12,6 +12,7 @@ use nannou::prelude::*;
 
 use racman_lib::core::sma::Sma;
 use racman_lib::RgbColor;
+use racman_lib::core::coordinate::Coord;
 
 mod user_config;
 
@@ -39,7 +40,12 @@ impl Grid {
 //        CONFIG.shark_starve_time,
 //        CONFIG.borderless,
         let mut sma = Sma::new(CONFIG.x as i32, CONFIG.y as i32);
-        sma.gen_particules(CONFIG.particle_number);
+        match CONFIG.mode.as_str() {
+            "pacman" => sma.gen_pacman(),
+            "particules" => sma.gen_particules(CONFIG.particle_number),
+            _=> panic!("Unkown grid mode!")
+        }
+
         Grid { sma }
     }
 
@@ -124,6 +130,10 @@ fn window_event(_: &App, model: &mut Model, event: WindowEvent) {
                 model.step = true;
             }
             Key::Space => model.pause = !model.pause,
+            Key::Up => model.grid.sma.update_player_direction(Coord(0, 1)),
+            Key::Down => model.grid.sma.update_player_direction(Coord(0, -1)),
+            Key::Right => model.grid.sma.update_player_direction(Coord(1, 0)),
+            Key::Left => model.grid.sma.update_player_direction(Coord(-1, 0)),
             _ => (),
         },
         _ => {}

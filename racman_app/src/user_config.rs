@@ -12,4 +12,5 @@ pub struct Config {
     pub fish_breed_time: i32,
     pub shark_breed_time: i32,
     pub shark_starve_time: i32,
+    pub mode: String,
 }

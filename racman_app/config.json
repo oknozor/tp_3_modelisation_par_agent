@@ -10,5 +10,6 @@
     "fish_breed_time": 5,
     "shark_number": 100,
     "shark_breed_time":3,
-    "shark_starve_time": 17
+    "shark_starve_time": 17,
+    "mode": "pacman"
 }
