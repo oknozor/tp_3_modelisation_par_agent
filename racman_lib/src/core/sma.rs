@@ -1,12 +1,12 @@
 use crate::core::constants;
 use crate::core::coordinate::Coord;
 use crate::core::environment::Environment;
+use crate::world::pacman::ghost::Ghost;
 use crate::world::pacman::maze;
 use crate::world::pacman::player::Player;
-use crate::world::pacman::wall::Wall;
 use crate::world::particle::Particle;
 use crate::AgentImpl;
-use rand::{seq::SliceRandom, thread_rng, Rng};
+use rand::{seq::SliceRandom, thread_rng};
 use std::cell::RefCell;
 use std::rc::Rc;
 
@@ -43,8 +43,18 @@ impl Sma {
         maze::gen().iter().for_each(|wall| {
             self.environment
                 .add_agent(Rc::new(RefCell::new(wall.clone())))
-        })
-        //        self.environment.add_agent(Rc::new(RefCell::new(Player::new())));
+        });
+
+        let mut rand_coord = Coord::random_coord();
+        while let Some(_) = self.environment.agents.iter()
+            .map(|agent| agent.borrow().coordinates())
+            .find(|coord| *coord == rand_coord) {
+            rand_coord = Coord::random_coord();
+        }
+
+         self.environment
+            .add_agent(Rc::new(RefCell::new(Ghost::new(rand_coord))));
+
     }
 
     pub fn gen_particules(&mut self, density: i32) {

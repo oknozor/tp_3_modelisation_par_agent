@@ -1,10 +1,12 @@
-use crate::core::constants::{set_max_height, set_max_width, NORTH, SOUTH, WEST, EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST, NORTH_EAST};
+use crate::core::agent::{Agent, AgentKind};
+use crate::core::constants::{
+    set_max_height, set_max_width, EAST, NORTH, NORTH_EAST, NORTH_WEST, SOUTH, SOUTH_EAST,
+    SOUTH_WEST, WEST,
+};
 use crate::core::coordinate::Coord;
 use crate::AgentImpl;
 use std::borrow::Borrow;
 use std::cell::RefCell;
-use std::rc::Rc;
-use crate::core::agent::Agent;
 
 pub struct Environment {
     pub agents: Vec<AgentImpl>,
@@ -22,9 +24,22 @@ impl Environment {
         for idx in 0..self.agents.len() {
             let mut ref_mut = self.agents[idx].borrow_mut();
             let coord = ref_mut.coordinates();
+            let kind = ref_mut.get_kind();
 
-            let neighbors = &self.get_neighbors(idx, coord);
-            ref_mut.decide(neighbors);
+            let neighbors = match kind {
+                AgentKind::Player => self.get_neighbors(idx, coord),
+                AgentKind::Ghost => {
+                    [
+                        &self.agents[0..idx],
+                        &self.agents[idx + 1..self.agents.len()]
+                    ].concat()
+                },
+                AgentKind::Particle => self.get_neighbors(idx, coord),
+                AgentKind::Wall => return,
+                AgentKind::Fish => return,
+                AgentKind::Shark => return,
+            };
+            ref_mut.decide(&neighbors);
         }
     }
 
@@ -32,25 +47,21 @@ impl Environment {
         self.agents.push(agent);
     }
 
-    fn remove_agent(&mut self, address: Coord) {
-        let _ = self.agents.remove(address.as_idx());
-    }
-
-    // returns closest agents regardless of the distance
     pub fn get_neighbors(&self, idx: usize, coord: Coord) -> Vec<AgentImpl> {
         let mut neighbors = vec![];
         for i in 0..self.agents.len() {
             if i != idx {
                 let agent: &RefCell<dyn Agent> = self.agents[i].borrow();
                 let n_coordinate: Coord = agent.borrow().coordinates();
-                if n_coordinate == coord + NORTH ||
-                    n_coordinate == coord + SOUTH ||
-                    n_coordinate == coord + EAST ||
-                    n_coordinate == coord + WEST ||
-                    n_coordinate == coord + SOUTH_EAST ||
-                    n_coordinate == coord + SOUTH_WEST ||
-                    n_coordinate == coord + NORTH_WEST ||
-                    n_coordinate == coord + NORTH_EAST {
+                if n_coordinate == coord + NORTH
+                    || n_coordinate == coord + SOUTH
+                    || n_coordinate == coord + EAST
+                    || n_coordinate == coord + WEST
+                    || n_coordinate == coord + SOUTH_EAST
+                    || n_coordinate == coord + SOUTH_WEST
+                    || n_coordinate == coord + NORTH_WEST
+                    || n_coordinate == coord + NORTH_EAST
+                {
                     neighbors.push(self.agents[i].clone());
                 }
             } else {

@@ -1,9 +1,6 @@
 use crate::core::agent::{Agent, AgentKind};
 use crate::core::coordinate::Coord;
 use crate::{AgentImpl, RgbColor};
-use std::any::Any;
-use std::cell::RefCell;
-use std::rc::Rc;
 
 #[derive(Clone)]
 pub struct Wall {
@@ -19,7 +16,7 @@ impl Wall {
 const COLOR: RgbColor = RgbColor(0.0, 0.0, 0.0);
 
 impl Agent for Wall {
-    fn decide(&mut self, neighbors: &[AgentImpl]) {
+    fn decide(&mut self, _: &[AgentImpl]) {
         ()
     }
 
@@ -31,7 +28,7 @@ impl Agent for Wall {
         Coord(0, 0)
     }
 
-    fn set_direction(&mut self, dir: Coord) {
+    fn set_direction(&mut self, _: Coord) {
         ()
     }
 
@@ -39,7 +36,7 @@ impl Agent for Wall {
         &COLOR
     }
 
-    fn set_color(&mut self, color: RgbColor) {
+    fn set_color(&mut self, _: RgbColor) {
         ()
     }
 

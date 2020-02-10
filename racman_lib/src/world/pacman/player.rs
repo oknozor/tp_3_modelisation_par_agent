@@ -1,7 +1,6 @@
 use crate::core::agent::{Agent, AgentKind};
 use crate::core::coordinate::Coord;
 use crate::{AgentImpl, RgbColor};
-use std::any::Any;
 
 const PLAYER_COLOR: RgbColor = RgbColor(0.0, 0.0, 1.0);
 

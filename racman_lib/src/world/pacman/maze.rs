@@ -1,18 +1,13 @@
-use rand::seq::SliceRandom;
 use rand::{thread_rng, Rng};
 
 use crate::core::constants;
-use crate::core::constants::{
-    EAST, NORTH, NORTH_EAST, NORTH_WEST, SOUTH, SOUTH_EAST, SOUTH_WEST, WEST,
-};
 use crate::core::coordinate::Coord;
 use crate::world::pacman::wall::Wall;
-use std::collections::HashSet;
-use std::env::{current_exe, temp_dir};
+use crate::AgentImpl;
 
 pub fn gen() -> Vec<Wall> {
     let mut cells: Vec<bool> = (0..constants::size())
-        .map(|i| true) // wall
+        .map(|_| true) // wall
         .collect();
 
     // clear the top row
@@ -51,7 +46,7 @@ pub fn gen() -> Vec<Wall> {
     cells
         .iter()
         .enumerate()
-        .filter(|(i, cell)| **cell)
+        .filter(|(_, cell)| **cell)
         .map(|(i, _)| Wall::new(Coord::from_idx(i as i32)))
         .collect()
 }

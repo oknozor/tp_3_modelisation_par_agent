@@ -1,4 +1,5 @@
-use crate::core::constants::{max_height, max_width};
+use crate::core::constants;
+use crate::core::constants::{max_height, max_width, EAST, NORTH, SOUTH, WEST};
 use rand::{thread_rng, Rng};
 use std::cmp::Ordering;
 use std::ops;
@@ -32,6 +33,22 @@ impl Coord {
         }
     }
 
+    pub fn north(&self) -> Coord {
+        *self + NORTH
+    }
+
+    pub fn south(&self) -> Coord {
+        *self + SOUTH
+    }
+
+    pub fn east(&self) -> Coord {
+        *self + EAST
+    }
+
+    pub fn west(&self) -> Coord {
+        *self + WEST
+    }
+
     pub fn random_dir() -> Coord {
         use crate::core::constants::*;
         let dirs = vec![
@@ -46,6 +63,13 @@ impl Coord {
         let dirs = vec![EAST, WEST, NORTH, SOUTH];
         let rng = thread_rng().gen_range(0, 4);
         dirs[rng]
+    }
+
+    pub fn random_coord() -> Coord {
+        use crate::core::constants::*;
+        let x = thread_rng().gen_range(0, constants::max_width());
+        let y = thread_rng().gen_range(0, constants::max_height());
+        Coord(x, y)
     }
 }
 

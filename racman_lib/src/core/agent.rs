@@ -1,6 +1,5 @@
 use crate::core::coordinate::Coord;
 use crate::{AgentImpl, RgbColor};
-use std::any::Any;
 
 #[derive(Eq, PartialEq)]
 pub enum AgentKind {
