@@ -10,9 +10,9 @@ use std::io::prelude::*;
 use nannou::event::Key;
 use nannou::prelude::*;
 
+use racman_lib::core::coordinate::Coord;
 use racman_lib::core::sma::Sma;
 use racman_lib::RgbColor;
-use racman_lib::core::coordinate::Coord;
 
 mod user_config;
 
@@ -35,15 +35,15 @@ struct Grid {
 
 impl Grid {
     fn new() -> Self {
-//        CONFIG.fish_breed_time,
-//        CONFIG.shark_breed_time,
-//        CONFIG.shark_starve_time,
-//        CONFIG.borderless,
+        //        CONFIG.fish_breed_time,
+        //        CONFIG.shark_breed_time,
+        //        CONFIG.shark_starve_time,
+        //        CONFIG.borderless,
         let mut sma = Sma::new(CONFIG.x as i32, CONFIG.y as i32);
         match CONFIG.mode.as_str() {
             "pacman" => sma.gen_pacman(),
             "particules" => sma.gen_particules(CONFIG.particle_number),
-            _=> panic!("Unkown grid mode!")
+            _ => panic!("Unkown grid mode!"),
         }
 
         Grid { sma }
@@ -63,11 +63,11 @@ impl Grid {
         self.sma.get_agents().iter().for_each(|agent| {
             let agent = agent.clone();
 
-                let x = agent.borrow().coordinates().0 as f32;
-                let y = agent.borrow().coordinates().1 as f32;
-                let x = (x * CONFIG.cell_size) - width / 2.0 + offset / 2.0;
-                let y = (y * CONFIG.cell_size) - height / 2.0 + offset / 2.0;
-                self.display_agent(&draw, agent.borrow().color(), x, y);
+            let x = agent.borrow().coordinates().0 as f32;
+            let y = agent.borrow().coordinates().1 as f32;
+            let x = (x * CONFIG.cell_size) - width / 2.0 + offset / 2.0;
+            let y = (y * CONFIG.cell_size) - height / 2.0 + offset / 2.0;
+            self.display_agent(&draw, agent.borrow().color(), x, y);
         });
     }
 
