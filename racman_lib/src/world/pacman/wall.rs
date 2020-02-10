@@ -1,4 +1,4 @@
-use crate::core::agent::Agent;
+use crate::core::agent::{Agent, AgentKind};
 use crate::core::coordinate::Coord;
 use crate::{AgentImpl, RgbColor};
 use std::any::Any;
@@ -43,7 +43,7 @@ impl Agent for Wall {
         ()
     }
 
-    fn as_any(&self) -> &dyn Any {
-        self
+    fn get_kind(&self) -> AgentKind {
+        AgentKind::Wall
     }
 }

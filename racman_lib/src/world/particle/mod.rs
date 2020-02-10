@@ -2,7 +2,7 @@ use std::any::Any;
 use std::borrow::Borrow;
 use std::cell::RefCell;
 
-use crate::core::agent::Agent;
+use crate::core::agent::{Agent, AgentKind};
 use crate::core::constants;
 use crate::core::coordinate::Coord;
 use crate::{AgentImpl, RgbColor};
@@ -55,20 +55,20 @@ impl Agent for Particle {
                     self.collide()
                 }
                 (Coord(x, y), constants::SOUTH_EAST)
-                    if y == constants::max_height() - 1 || x == constants::max_width() - 1 =>
-                {
-                    self.collide()
-                }
+                if y == constants::max_height() - 1 || x == constants::max_width() - 1 =>
+                    {
+                        self.collide()
+                    }
                 (Coord(x, y), constants::SOUTH_WEST)
-                    if y == constants::max_height() - 1 || x == 0 =>
-                {
-                    self.collide()
-                }
+                if y == constants::max_height() - 1 || x == 0 =>
+                    {
+                        self.collide()
+                    }
                 (Coord(x, y), constants::NORTH_EAST)
-                    if y == 0 || x == constants::max_width() - 1 =>
-                {
-                    self.collide()
-                }
+                if y == 0 || x == constants::max_width() - 1 =>
+                    {
+                        self.collide()
+                    }
                 (Coord(x, y), constants::NORTH_WEST) if y == 0 || x == 0 => self.collide(),
                 _ => self.coordinates = self.coordinates + self.direction,
             }
@@ -95,7 +95,7 @@ impl Agent for Particle {
         self.color = color;
     }
 
-    fn as_any(&self) -> &dyn Any {
-        self
+    fn get_kind(&self) -> AgentKind {
+        AgentKind::Particle
     }
 }

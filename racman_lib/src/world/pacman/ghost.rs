@@ -1,6 +1,6 @@
 use std::any::Any;
 
-use crate::core::agent::Agent;
+use crate::core::agent::{Agent, AgentKind};
 use crate::core::coordinate::Coord;
 use crate::{AgentImpl, RgbColor};
 
@@ -52,7 +52,7 @@ impl Agent for Ghost {
         //        self.color = color;
     }
 
-    fn as_any(&self) -> &dyn Any {
-        self
+    fn get_kind(&self) -> AgentKind {
+        AgentKind::Ghost
     }
 }

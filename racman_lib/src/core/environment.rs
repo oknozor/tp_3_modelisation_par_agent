@@ -22,6 +22,7 @@ impl Environment {
         for idx in 0..self.agents.len() {
             let mut ref_mut = self.agents[idx].borrow_mut();
             let coord = ref_mut.coordinates();
+
             let neighbors = &self.get_neighbors(idx, coord);
             ref_mut.decide(neighbors);
         }
