@@ -1,9 +1,13 @@
-use crate::core::constants::{set_max_height, set_max_width};
+use crate::core::constants::{set_max_height, set_max_width, NORTH, SOUTH, WEST, EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST, NORTH_EAST};
 use crate::core::coordinate::Coord;
 use crate::AgentImpl;
+use std::borrow::Borrow;
+use std::cell::RefCell;
+use std::rc::Rc;
+use crate::core::agent::Agent;
 
 pub struct Environment {
-    pub agents: Vec<AgentImpl>
+    pub agents: Vec<AgentImpl>,
 }
 
 impl Environment {
@@ -11,16 +15,15 @@ impl Environment {
         set_max_height(height);
         set_max_width(width);
 
-        Environment {
-            agents: vec![]
-        }
+        Environment { agents: vec![] }
     }
 
     pub fn tick(&mut self) {
         for idx in 0..self.agents.len() {
-            let neighbors = &self.get_neighbors(idx);
-
-            self.agents[idx].borrow_mut().decide(neighbors);
+            let mut ref_mut = self.agents[idx].borrow_mut();
+            let coord = ref_mut.coordinates();
+            let neighbors = &self.get_neighbors(idx, coord);
+            ref_mut.decide(neighbors);
         }
     }
 
@@ -33,30 +36,27 @@ impl Environment {
     }
 
     // returns closest agents regardless of the distance
-    pub fn get_neighbors(&self, idx: usize) -> Vec<AgentImpl> {
-        let agent_size = self.agents.len() - 1;
-
-        let start = if idx as i32 - 4 < 0 {
-            0
-        } else {
-            idx - 4
-        };
-
-        let left = self.agents[start..idx].to_vec();
-
-        let end = if idx + 4 > agent_size {
-            agent_size
-        } else {
-            idx  as usize + 4
-        };
-
-        let right = if idx == agent_size {
-            vec![]
-        } else {
-            self.agents[idx as usize + 1..end].to_vec()
-        };
-
-        [left, right].concat().to_vec()
+    pub fn get_neighbors(&self, idx: usize, coord: Coord) -> Vec<AgentImpl> {
+        let mut neighbors = vec![];
+        for i in 0..self.agents.len() {
+            if i != idx {
+                let agent: &RefCell<dyn Agent> = self.agents[i].borrow();
+                let n_coordinate: Coord = agent.borrow().coordinates();
+                if n_coordinate == coord + NORTH ||
+                    n_coordinate == coord + SOUTH ||
+                    n_coordinate == coord + EAST ||
+                    n_coordinate == coord + WEST ||
+                    n_coordinate == coord + SOUTH_EAST ||
+                    n_coordinate == coord + SOUTH_WEST ||
+                    n_coordinate == coord + NORTH_WEST ||
+                    n_coordinate == coord + NORTH_EAST {
+                    neighbors.push(self.agents[i].clone());
+                }
+            } else {
+                continue;
+            };
+        }
+        neighbors
     }
 }
 

@@ -1,6 +1,6 @@
 use crate::core::coordinate::Coord;
-use std::any::Any;
 use crate::{AgentImpl, RgbColor};
+use std::any::Any;
 
 pub trait Agent {
     fn decide(&mut self, neighbors: &[AgentImpl]);

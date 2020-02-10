@@ -3,9 +3,9 @@
 pub mod core;
 pub mod world;
 
+use crate::core::agent::Agent;
 use std::cell::RefCell;
 use std::rc::Rc;
-use crate::core::agent::Agent;
 
 pub type AgentImpl = Rc<RefCell<dyn Agent>>;
 
@@ -24,4 +24,3 @@ impl RgbColor {
         RgbColor(0.0, 0.0, 0.0)
     }
 }
-

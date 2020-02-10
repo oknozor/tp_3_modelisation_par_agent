@@ -49,7 +49,6 @@ impl Grid {
         Grid { sma }
     }
 
-    // This is the easy part, just draw the cells fill white if 1, black if 0
     fn display(&self, draw: &app::Draw) {
         let offset = CONFIG.cell_size;
 

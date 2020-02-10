@@ -1,7 +1,7 @@
-use std::ops;
-use std::cmp::Ordering;
 use crate::core::constants::{max_height, max_width};
 use rand::{thread_rng, Rng};
+use std::cmp::Ordering;
+use std::ops;
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub struct Coord(pub i32, pub i32);
@@ -22,20 +22,29 @@ impl Coord {
             1 => self.0 = -1,
             -1 => self.0 = 1,
             0 => (),
-            _ => panic!("Invalid x direction value")
+            _ => panic!("Invalid x direction value"),
         }
         match self.1 {
             1 => self.1 = -1,
             -1 => self.1 = 1,
             0 => (),
-            _ => panic!("Invalid v direction value")
+            _ => panic!("Invalid v direction value"),
         }
     }
 
     pub fn random_dir() -> Coord {
         use crate::core::constants::*;
-        let dirs = vec![EAST, WEST, NORTH, SOUTH, SOUTH_WEST, SOUTH_EAST, NORTH_WEST, NORTH_EAST];
+        let dirs = vec![
+            EAST, WEST, NORTH, SOUTH, SOUTH_WEST, SOUTH_EAST, NORTH_WEST, NORTH_EAST,
+        ];
         let rng = thread_rng().gen_range(0, 8);
+        dirs[rng]
+    }
+
+    pub fn random_dir_no_diagonal() -> Coord {
+        use crate::core::constants::*;
+        let dirs = vec![EAST, WEST, NORTH, SOUTH];
+        let rng = thread_rng().gen_range(0, 4);
         dirs[rng]
     }
 }
@@ -67,8 +76,8 @@ impl Ord for Coord {
 
 #[cfg(test)]
 mod test {
+    use crate::core::constants::{set_max_height, set_max_width};
     use crate::core::coordinate::Coord;
-    use crate::core::constants::{set_max_width, set_max_height};
 
     #[test]
     fn should_add() {
@@ -76,7 +85,6 @@ mod test {
         let rhs = Coord(0, 1);
         set_max_width(10);
         set_max_height(10);
-
 
         assert_eq!(lhs + rhs, Coord(0, 1));
 
@@ -103,6 +111,9 @@ mod test {
         let mut coords = vec![Coord(0, 9), Coord(9, 1), Coord(0, 0), Coord(10, 10)];
         coords.sort();
 
-        assert_eq!(coords, vec![Coord(0, 0), Coord(9, 1), Coord(0, 9), Coord(10, 10)]);
+        assert_eq!(
+            coords,
+            vec![Coord(0, 0), Coord(9, 1), Coord(0, 9), Coord(10, 10)]
+        );
     }
 }

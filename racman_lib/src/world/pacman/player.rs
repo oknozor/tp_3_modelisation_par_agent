@@ -1,20 +1,25 @@
-use crate::core::agent::{Agent};
+use crate::core::agent::Agent;
 use crate::core::coordinate::Coord;
-use std::any::Any;
 use crate::{AgentImpl, RgbColor};
+use std::any::Any;
 
 const PLAYER_COLOR: RgbColor = RgbColor(0.0, 0.0, 1.0);
 
 pub struct Player {
     coordinates: Coord,
     direction: Coord,
-    color: RgbColor
+    color: RgbColor,
 }
 
 impl Agent for Player {
     fn decide(&mut self, neighbors: &[AgentImpl]) {
         let forward_position = self.get_forward_position();
-        if let Some(_) = neighbors.iter().find(|agent| agent.borrow().coordinates() == forward_position) {
+
+        if let Some(_) = neighbors
+            .iter()
+            .find(|agent| agent.borrow().coordinates() == forward_position)
+        {
+            self.direction = Coord(0, 0);
         } else {
             self.coordinates = forward_position
         }
@@ -48,8 +53,8 @@ impl Agent for Player {
 impl Player {
     pub fn new() -> Player {
         Player {
-            coordinates: Coord(0,0),
-            direction: Coord(0,0),
+            coordinates: Coord(0, 0),
+            direction: Coord(0, 0),
             color: RgbColor::blue(),
         }
     }

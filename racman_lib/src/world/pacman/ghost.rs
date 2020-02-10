@@ -1,8 +1,8 @@
 use std::any::Any;
 
-use crate::{AgentImpl, RgbColor};
 use crate::core::agent::Agent;
 use crate::core::coordinate::Coord;
+use crate::{AgentImpl, RgbColor};
 
 const GHOST_COLOR: RgbColor = RgbColor(0.0, 0.0, 0.0);
 
@@ -15,7 +15,7 @@ impl Ghost {
     pub fn new() -> Ghost {
         Ghost {
             coordinates: Coord(2, 3),
-            direction: Coord::random_dir()
+            direction: Coord::random_dir(),
         }
     }
 }
@@ -23,7 +23,11 @@ impl Ghost {
 impl Agent for Ghost {
     fn decide(&mut self, neighbors: &[AgentImpl]) {
         let forward_position = Coord(0, 1);
-        if let Some(_) = neighbors.iter().find(|agent| agent.borrow().coordinates() == forward_position) {} else {
+        if let Some(_) = neighbors
+            .iter()
+            .find(|agent| agent.borrow().coordinates() == forward_position)
+        {
+        } else {
             self.coordinates = forward_position
         }
     }
@@ -45,11 +49,10 @@ impl Agent for Ghost {
     }
 
     fn set_color(&mut self, color: RgbColor) {
-//        self.color = color;
+        //        self.color = color;
     }
 
     fn as_any(&self) -> &dyn Any {
         self
     }
-
 }

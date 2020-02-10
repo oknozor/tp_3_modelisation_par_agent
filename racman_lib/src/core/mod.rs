@@ -1,5 +1,5 @@
-pub (crate) mod environment;
+pub(crate) mod agent;
+pub(crate) mod constants;
 pub mod coordinate;
-pub (crate) mod constants;
-pub (crate) mod agent;
+pub(crate) mod environment;
 pub mod sma;
